@@ -1,11 +1,9 @@
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import "../styles/globals.css";
 
-const desiredChainId = ChainId.Mumbai;
-
 function MyApp({ Component, pageProps }) {
   return (
-    <ThirdwebProvider desiredChainId={desiredChainId}>
+    <ThirdwebProvider desiredChainId={ChainId.Mumbai}>
       <Component {...pageProps} />
     </ThirdwebProvider>
   );
