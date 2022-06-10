@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 /** Components */
 import Layout from "../components/Layout";
 import WrongNetwork from "../components/WrongNetwork";
+import BounceLoader from "react-spinners/BounceLoader";
 
 export default function Home() {
   const address = useAddress();
@@ -22,7 +23,7 @@ export default function Home() {
   console.log("getOwned", address, data, isFetching, isSuccess);
 
   useEffect(() => {
-    if (data.length && isSuccess) {
+    if (data?.length && isSuccess) {
       console.log("ho");
 
       setOwnedTokenData(data);
@@ -57,25 +58,37 @@ export default function Home() {
   }
 
   return (
-    <Layout className="py-4">
-      <h1 className="text-3xl font-bold text-center">Decentrament Web App</h1>
+    <Layout className="py-4 text-center">
+      <h1 className="text-3xl text-brand-3 font-bold mb-8">Decentrament DAO</h1>
 
-      {isFetching && <p>isFetching</p>}
+      <BounceLoader
+        color="#9d46eb"
+        loading={isFetching}
+        size={150}
+        css={{
+          display: "block",
+          margin: "40px auto 0",
+        }}
+      />
 
       {address && !ownedTokenData.length && hasFetchedTokens && (
-        <button className="" onClick={onMint}>
-          Mint
-        </button>
+        <section>
+          <p className="mb-3">Mint a Decentrament DAO NFT for 0.1 Matic</p>
+          <button className="sm:text-base" onClick={onMint}>
+            Mint
+          </button>
+        </section>
       )}
 
       {address &&
         ownedTokenData?.map((tokenData) => {
           return (
             <div key={tokenData.metadata.image}>
-              <video loop autoPlay muted className="object-cover h-128 w-full">
+              <h2 className="text-xl font-semibold mb-2">{tokenData.metadata.name}</h2>
+              <p className="mb-5">{tokenData.metadata.description}</p>
+              <video loop autoPlay muted className="max-w-[400px] rounded-xl mx-auto">
                 <source src={tokenData?.metadata?.image} type="video/mp4" />
               </video>
-              <p>Token ID: {tokenData?.metadata?.id.toNumber()}</p>
             </div>
           );
         })}

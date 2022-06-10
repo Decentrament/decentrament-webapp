@@ -6,5 +6,5 @@ export function truncateString(str, num = 0) {
   const startOfEnd = str.length - 4;
   const end = str.length;
 
-  return str.slice(0, 4) + "...." + str.slice(startOfEnd, end);
+  return str.slice(0, 5) + "..." + str.slice(startOfEnd, end);
 }

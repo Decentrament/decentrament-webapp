@@ -16,7 +16,11 @@ const Navbar = () => {
       </Link>
 
       <div className="flex items-center justify-end">
-        {address && <p className="hidden sm:block mr-3 text-sm">{truncateString(address)}</p>}
+        {address && (
+          <p className="hidden sm:block mr-3 text-sm tracking-widest uppercase">
+            {truncateString(address)}
+          </p>
+        )}
         {!address ? (
           <button className="" onClick={connectWithMetamask}>
             Connect
