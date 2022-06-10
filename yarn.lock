@@ -3774,10 +3774,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-"react-query@^4.0.0-beta.3":
-  "integrity" "sha512-Muxedh0VdwL3QitW2ZO71r+w9uIfWgTdiycD59FQ7nHmWq0Hrooo2oBDb14mT3+GW9sTod5oAuWYP7v8VZY66Q=="
-  "resolved" "https://registry.npmjs.org/react-query/-/react-query-4.0.0-beta.15.tgz"
-  "version" "4.0.0-beta.15"
+"react-query@^4.0.0-beta.23", "react-query@^4.0.0-beta.3":
+  "integrity" "sha512-e6mNBVAYGy0M1OwX0mhRB/lCkOedKeqTUrbPjNCqvm8hQGUsJJobqfHVvTv8o6JJaOO2MFcxKF4vZM+PEKbHZA=="
+  "resolved" "https://registry.npmjs.org/react-query/-/react-query-4.0.0-beta.23.tgz"
+  "version" "4.0.0-beta.23"
   dependencies:
     "@babel/runtime" "^7.17.9"
     "@types/use-sync-external-store" "^0.0.3"

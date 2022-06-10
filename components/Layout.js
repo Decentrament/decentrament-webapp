@@ -1,17 +1,18 @@
 import Head from "next/head";
+import Navbar from "./Navbar";
 
 export default function Layout({ title, keywords, description, children, className = "" }) {
   return (
-    <div className="font-poppins bg-darkblue min-h-screen">
+    <div className="font-poppins bg-darkblue text-white">
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="keywords" content={keywords} />
       </Head>
 
-      <div className={`text-white overflow-x-hidden min-h-screen max-w-2xl mx-auto ${className}`}>
-        {children}
-      </div>
+      <Navbar />
+
+      <div className={`overflow-x-hidden min-h-screen content ${className}`}>{children}</div>
     </div>
   );
 }

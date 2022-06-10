@@ -3,8 +3,19 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer utilities {
+  .content {
+    @apply max-w-5xl mx-auto px-3;
+  }
+
   .transition-effect {
     @apply transition-all duration-300 ease-in-out;
+  }
+}
+
+@layer base {
+  button {
+    @apply text-white py-[5px] bg-brand-1 rounded-full hover:bg-brand-1/70 w-[120px] transition-effect text-sm;
   }
 }

@@ -1,11 +1,16 @@
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import "../styles/globals.css";
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThirdwebProvider desiredChainId={ChainId.Mumbai}>
-      <Component {...pageProps} />
-    </ThirdwebProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThirdwebProvider desiredChainId={ChainId.Mumbai}>
+        <Component {...pageProps} />
+      </ThirdwebProvider>
+    </QueryClientProvider>
   );
 }
 

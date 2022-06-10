@@ -1,63 +1,84 @@
 import { useState, useEffect } from "react";
-import {
-  useMetamask,
-  useDisconnect,
-  useAddress,
-  useNetworkMismatch,
-  useEditionDrop,
-} from "@thirdweb-dev/react";
+import { useAddress, useNetworkMismatch, useEditionDrop } from "@thirdweb-dev/react";
+import { useQuery } from "react-query";
 /** Components */
 import Layout from "../components/Layout";
+import WrongNetwork from "../components/WrongNetwork";
 
 export default function Home() {
   const address = useAddress();
-  const connectWithMetamask = useMetamask();
-  const disconnectWallet = useDisconnect();
   const isMismatched = useNetworkMismatch();
   const editionDrop = useEditionDrop("0x935bC28891D4587B5c534feA90347c7636908a32");
-  const [ownedTokenData, setOwnedTokenData] = useState();
+  const [hasFetchedTokens, setHasFetchedTokens] = useState(false);
+  const [ownedTokenData, setOwnedTokenData] = useState([]);
+
+  const { data, isFetching, isSuccess } = useQuery(
+    ["Owned Tokens"],
+    () => editionDrop.getOwned(address),
+    {
+      enabled: !!(address && !hasFetchedTokens),
+    },
+  );
+  console.log("getOwned", address, data, isFetching, isSuccess);
 
   useEffect(() => {
-    const getNftInfoForAddress = async () => {
-      if (address && editionDrop) {
-        const allTokens = await editionDrop.getAll();
-        const addressTokens = await editionDrop.getOwned(address);
-        const totalCount = await editionDrop.getTotalCount();
-        console.log("getAll", allTokens);
-        console.log("getOwned", addressTokens);
-        console.log("getTotalCount", totalCount.toNumber());
-        setOwnedTokenData(addressTokens[0]);
-      }
-    };
+    if (data.length && isSuccess) {
+      console.log("ho");
 
-    getNftInfoForAddress();
-  }, [address, editionDrop]);
+      setOwnedTokenData(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (address && isSuccess && !isFetching) {
+      setHasFetchedTokens(true);
+    }
+  }, [address, isSuccess, isFetching]);
+
+  useEffect(() => {
+    if (!address) {
+      console.log("hey");
+      setHasFetchedTokens(false);
+      setOwnedTokenData([]);
+    }
+  }, [address]);
+
+  const onMint = async () => {
+    try {
+      const result = await editionDrop.claim("0", 1);
+      console.log({ result });
+    } catch (error) {
+      console.error("Failed to mint NFT", error);
+    }
+  };
+
+  if (isMismatched) {
+    return <WrongNetwork />;
+  }
 
   return (
-    <Layout>
-      <h1>Decentrament Web App</h1>
+    <Layout className="py-4">
+      <h1 className="text-3xl font-bold text-center">Decentrament Web App</h1>
 
-      {isMismatched && <p className="text-red-500">Please change your network to Polygon Mumbai</p>}
+      {isFetching && <p>isFetching</p>}
 
-      {!address ? <h1>Not connected</h1> : <h1>Connected: {address}</h1>}
-      {!address ? (
-        <button className="p-2 bg-orange-400" onClick={connectWithMetamask}>
-          Connect Metamask
-        </button>
-      ) : (
-        <button className="p-2 bg-gray-400" onClick={disconnectWallet}>
-          Disconnect
+      {address && !ownedTokenData.length && hasFetchedTokens && (
+        <button className="" onClick={onMint}>
+          Mint
         </button>
       )}
 
-      {ownedTokenData && (
-        <div>
-          <video loop autoPlay muted className="object-cover h-128 w-full">
-            <source src={ownedTokenData?.metadata?.image} type="video/mp4" />
-          </video>
-          <p>Token ID: {ownedTokenData.metadata.id.toNumber()}</p>
-        </div>
-      )}
+      {address &&
+        ownedTokenData?.map((tokenData) => {
+          return (
+            <div key={tokenData.metadata.image}>
+              <video loop autoPlay muted className="object-cover h-128 w-full">
+                <source src={tokenData?.metadata?.image} type="video/mp4" />
+              </video>
+              <p>Token ID: {tokenData?.metadata?.id.toNumber()}</p>
+            </div>
+          );
+        })}
     </Layout>
   );
 }
