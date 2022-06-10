@@ -14,8 +14,8 @@
   }
 }
 
-@layer base {
-  button {
+@layer components {
+  .button {
     @apply text-white py-[5px] bg-brand-1 rounded-full hover:bg-brand-1/70 w-[120px] transition-effect text-sm;
   }
 }

@@ -1,6 +1,7 @@
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "../styles/globals.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const queryClient = new QueryClient();
 

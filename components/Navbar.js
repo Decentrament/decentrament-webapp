@@ -8,7 +8,7 @@ const Navbar = () => {
   const disconnectWallet = useDisconnect();
 
   return (
-    <nav className="content flex justify-between overflow-x-hidden py-2">
+    <nav className="content flex justify-between overflow-x-hidden py-2 border-b">
       <Link href="/">
         <a className="flex items-center w-10">
           <img src="/logo.png" alt="Decentrament logo" />
@@ -22,11 +22,11 @@ const Navbar = () => {
           </p>
         )}
         {!address ? (
-          <button className="" onClick={connectWithMetamask}>
+          <button className="button" onClick={connectWithMetamask}>
             Connect
           </button>
         ) : (
-          <button className="bg-gray-400 hover:bg-gray-500" onClick={disconnectWallet}>
+          <button className="button bg-gray-400 hover:bg-gray-500" onClick={disconnectWallet}>
             Disconnect
           </button>
         )}
